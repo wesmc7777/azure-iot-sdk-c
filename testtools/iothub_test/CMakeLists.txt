@@ -26,10 +26,15 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../../iothub_client/inc)
 include_directories(${IOTHUB_SERVICE_CLIENT_INC_FOLDER})
 
 IF(WIN32)
-	#windows needs this define
-	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-	add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
+    #windows needs this define
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(-DGB_MEASURE_MEMORY_FOR_THIS -DGB_DEBUG_ALLOC)
 ENDIF(WIN32)
+
+if(${use_sample_trusted_cert})
+    add_definitions(-DSET_TRUSTED_CERT_IN_SAMPLES)
+    set(iothub_test_c_files ${iothub_test_c_files} ${PROJECT_SOURCE_DIR}/certs/certs.c)
+endif()
 
 add_library(iothub_test ${iothub_test_c_files} ${iothub_test_h_files})
 

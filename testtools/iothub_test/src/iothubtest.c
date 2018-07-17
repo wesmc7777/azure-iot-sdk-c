@@ -1122,6 +1122,10 @@ IOTHUB_TEST_CLIENT_RESULT IoTHubTest_ListenForEvent(IOTHUB_TEST_HANDLE devhubHan
                 }
                 else
                 {
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
+                    xio_setoption(tls_io, OPTION_TRUSTED_CERT, certificates);
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
+
                     /* create the SASL client IO using the TLS IO */
                     SASLCLIENTIO_CONFIG sasl_io_config;
                     sasl_io_config.underlying_io = tls_io;
