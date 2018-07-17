@@ -10,6 +10,7 @@
 #include "azure_c_shared_utility/tlsio.h"
 #include "azure_c_shared_utility/platform.h"
 #include "azure_c_shared_utility/sastoken.h"
+#include "azure_c_shared_utility/shared_util_options.h"
 
 #include "azure_uamqp_c/connection.h"
 #include "azure_uamqp_c/message_receiver.h"
@@ -21,6 +22,10 @@
 #include "azure_uamqp_c/cbs.h"
 
 #include "parson.h"
+
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
+#include "certs.h"
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
 
 #include "iothub_messaging_ll.h"
 #include "iothub_sc_version.h"
@@ -1146,6 +1151,10 @@ IOTHUB_MESSAGING_RESULT IoTHubMessaging_LL_Open(IOTHUB_MESSAGING_HANDLE messagin
                 }
                 else
                 {
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
+                    xio_setoption(messagingHandle->tls_io, OPTION_TRUSTED_CERT, certificates);
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
+
                     messagingHandle->callback_data->openCompleteCompleteCallback = openCompleteCallback;
                     messagingHandle->callback_data->openUserContext = userContextCallback;
 

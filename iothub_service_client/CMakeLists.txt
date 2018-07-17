@@ -35,9 +35,14 @@ set(iothub_service_client_h_files
 )
 
 include_directories(${SHARED_UTIL_INC_FOLDER})
-
 include_directories(${UAMQP_INC_FOLDER})
 include_directories(${UAMQP_INCLUDES})
+
+if(${use_sample_trusted_cert})
+    add_definitions(-DSET_TRUSTED_CERT_IN_SAMPLES)
+    set(iothub_service_client_c_files ${iothub_service_client_c_files} ${PROJECT_SOURCE_DIR}/certs/certs.c)
+    include_directories(${PROJECT_SOURCE_DIR}/certs/)
+endif()
 
 set(IOTHUB_SERVICE_CLIENT_INC_FOLDER ${CMAKE_CURRENT_LIST_DIR}/inc CACHE INTERNAL "This is the include folder for iothub_service_client" FORCE)
 
