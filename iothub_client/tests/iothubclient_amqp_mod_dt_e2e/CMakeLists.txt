@@ -46,6 +46,10 @@ include_directories(../../../certs/)
 include_directories(${IOTHUB_TEST_INC_FOLDER})
 include_directories(${IOTHUB_SERVICE_CLIENT_INC_FOLDER})
 
+if(${use_sample_trusted_cert})
+    add_definitions(-DSET_TRUSTED_CERT_IN_SAMPLES)
+endif()
+
 file(COPY ../global_valgrind_suppression.supp DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 build_c_test_artifacts(${theseTestsName} ON "tests/E2ETests" VALGRIND_SUPPRESSIONS_FILE global_valgrind_suppression.supp)
 
@@ -83,7 +87,7 @@ if(WIN32)
         linkUAMQP(${theseTestsName}_exe)
     endif()
 
-	if(TARGET ${theseTestsName}_nuget_exe)
+    if(TARGET ${theseTestsName}_nuget_exe)
            target_link_libraries(${theseTestsName}_nuget_exe
                    iothub_test
                    iothub_service_client
