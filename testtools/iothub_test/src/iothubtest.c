@@ -27,6 +27,7 @@
 #include "azure_c_shared_utility/gballoc.h"
 #include "azure_c_shared_utility/urlencode.h"
 #include "azure_c_shared_utility/crt_abstractions.h"
+#include "azure_c_shared_utility/shared_util_options.h"
 
 #include "azure_c_shared_utility/threadapi.h"
 #include "iothubtest.h"
@@ -43,6 +44,10 @@
 #include "azure_uamqp_c/saslclientio.h"
 #include "azure_uamqp_c/sasl_plain.h"
 #include "azure_uamqp_c/cbs.h"
+
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
+#include "certs.h"
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
 
 const char* AMQP_RECV_ADDRESS_FMT = "%s/ConsumerGroups/%s/Partitions/%u";
 const char* AMQP_ADDRESS_PATH_FMT = "/devices/%s/messages/deviceBound";

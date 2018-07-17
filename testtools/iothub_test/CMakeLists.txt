@@ -34,6 +34,7 @@ ENDIF(WIN32)
 if(${use_sample_trusted_cert})
     add_definitions(-DSET_TRUSTED_CERT_IN_SAMPLES)
     set(iothub_test_c_files ${iothub_test_c_files} ${PROJECT_SOURCE_DIR}/certs/certs.c)
+    include_directories(${PROJECT_SOURCE_DIR}/certs/)
 endif()
 
 add_library(iothub_test ${iothub_test_c_files} ${iothub_test_h_files})
