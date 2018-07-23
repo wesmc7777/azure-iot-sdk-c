@@ -25,6 +25,7 @@
 #include "azure_c_shared_utility/uniqueid.h"
 #include "azure_c_shared_utility/xlogging.h"
 #include "azure_c_shared_utility/lock.h"
+#include "azure_c_shared_utility/shared_util_options.h"
 
 #include "parson.h"
 #include "certs.h"
@@ -44,11 +45,9 @@ typedef struct DEVICE_REPORTED_DATA_TAG
     LOCK_HANDLE lock;
 } DEVICE_REPORTED_DATA;
 
-
 static IOTHUB_ACCOUNT_INFO_HANDLE g_iothubAcctInfo = NULL;
 static IOTHUB_DEVICE_CLIENT_HANDLE iothub_deviceclient_handle = NULL;
 static IOTHUB_MODULE_CLIENT_HANDLE iothub_moduleclient_handle = NULL;
-
 
 static void reportedStateCallback(int status_code, void* userContextCallback)
 {
@@ -229,6 +228,10 @@ static void dt_e2e_create_client_handle(IOTHUB_PROVISIONED_DEVICE* deviceToUse, 
 
     bool trace = true;
     setoption_on_device_or_module(OPTION_LOG_TRACE, &trace, "Cannot enable tracing");
+
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
+    setoption_on_device_or_module(OPTION_TRUSTED_CERT, certificates, "Cannot enable trusted cert");
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
 }
 
 static void destroy_on_device_or_module()
